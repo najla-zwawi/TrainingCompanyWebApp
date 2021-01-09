@@ -1,0 +1,122 @@
+﻿@model CompanyInfoViewModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+<main id="main">
+    <!-- ======= Breadcrumbs ======= -->
+    <div class="breadcrumbs" data-aos="fade-in">
+        <div class="container">
+            <h2><b>@ViewContext.RouteData.Values["controller"].ToString()</b> - @ViewContext.RouteData.Values["action"].ToString()</h2>
+
+        </div>
+    </div><!-- End Breadcrumbs -->
+    <div class="container" data-aos="fade-up" style="padding-top:40px;">
+        <form asp-action="Edit" enctype="multipart/form-data" class="php-email-form">
+            <div class="row ">
+                <div class="col-lg-6">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <h4>Company</h4>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" asp-for="Name" id="inputGroup-sizing-default">Name</span>
+                        </div>
+                        <input type="text" asp-for="@Model.TrainingCompany.Name" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                        <span asp-validation-for="@Model.TrainingCompany.Name" class="text-danger"></span>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" asp-for="Specialization" id="inputGroup-sizing-default">Specialization</span>
+                        </div>
+                        <input type="text" asp-for="@Model.TrainingCompany.Specialization" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                        <span asp-validation-for="@Model.TrainingCompany.Specialization" class="text-danger"></span>
+                    </div>
+            
+
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span asp-for="Description" class="input-group-text">Description</span>
+                        </div>
+                        <textarea class="form-control" style="margin-top: 0px; margin-bottom: 0px; height: 260px;" asp-for="@Model.TrainingCompany.Description" aria-label="With textarea"></textarea>
+                        <span asp-validation-for="@Model.TrainingCompany.Description" class="text-danger"></span>
+                    </div>
+
+                    <div class=" form-group row">
+                        <div class="custom-file" style="padding-bottom: 20px;">
+                            <input id="fileAttach" type="file" asp-for="File" onchange="UploadAttach(this);" class="form-control custom-file-input" />
+                            @*<input type="file" asp-for="File"  />*@
+                            <label class="custom-file-label">Choose file...</label>
+                        </div>
+
+                        @if (Model.TrainingCompany != null)
+                        {
+                            @if (Model.TrainingCompany.Picture != null)
+                            {
+                                <img id="imgAttach" src="data:image/jpg;base64,@(Convert.ToBase64String(Model.TrainingCompany.Picture))" id="imgAttach" style="width:100%;height:200px" onclick="return clickFile();" class="img-thumbnail" />
+                                @*<img id="imgAttach" src="@Url.Action("GetImage", "CompanyContact", new { id = Model.TrainingCompany.Id })" alt="No image..." style="width:100%;height:80%" onclick="return clickFile();" class="img-thumbnail" />*@
+                            }
+                            else
+                            {
+                                <img src="~/assets/img/about.jpg" asp-append-version="true" style="width:100%;height:80%" />
+
+                            }
+                        }
+                        else
+                        {
+                            <img src="~/assets/img/about.jpg" asp-append-version="true" style="width:100%;height:80%" />
+                        }
+                    </div>
+
+                </div>
+
+                <div class="col-lg-6 pull-right">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <h4>Contact</h4>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" asp-for="Email" id="inputGroup-sizing-default">Email</span>
+                        </div>
+                        <input type="text" asp-for="@Model.Contact.Email" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                        <span asp-validation-for="@Model.Contact.Email" class="text-danger"></span>
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" asp-for="Phone" id="inputGroup-sizing-default">Phone</span>
+                        </div>
+                        <input type="text" asp-for="@Model.Contact.Phone" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                        <span asp-validation-for="@Model.Contact.Phone" class="text-danger"></span>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" asp-for="Location" id="inputGroup-sizing-default">Location</span>
+                        </div>
+                        <input type="text" asp-for="@Model.Contact.Location" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                        <span asp-validation-for="@Model.Contact.Location" class="text-danger"></span>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" asp-for="Facebook" id="inputGroup-sizing-default">Facebook</span>
+                        </div>
+                        <input type="text" asp-for="@Model.Contact.Facebook" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                        <span asp-validation-for="@Model.Contact.Facebook" class="text-danger"></span>
+                    </div>
+
+
+
+                    
+                </div>
+
+                <div class="form-group  " style="text-align:center">
+                    <input type="submit" value="Save" class="get-started-btn" /> |
+                    <a asp-action="Details" class="btn-get-started" asp-controller="CompanyInfo">Back to Details</a>
+                </div>
+                @Html.HiddenFor(m => m.Contact.CreatedDate, Model.Contact.CreatedDate);
+            </div>
+        </form>
+    </div>
+</main>
+@section Scripts{
+    <partial name="_Validate" />
+    <script src="~/js/JavaScript.js"></script>
+}

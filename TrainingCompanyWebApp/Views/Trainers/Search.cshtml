@@ -1,0 +1,115 @@
+﻿@model PagedResult<Trainers>
+@{
+    ViewData["Title"] = ViewContext.RouteData.Values["controller"].ToString();
+}
+<div class="container" style="margin-top:100px;">
+    <h3><b>@ViewContext.RouteData.Values["controller"].ToString()</b></h3>
+    <hr />
+    @if (Model.Data.Any())
+    {
+        <p>
+
+            <a asp-action="Create" class="get-started-btn">Create New</a>
+
+        </p>
+        <div style="min-height:350px;">
+            <table class="table ">
+                <thead>
+                    <tr>
+                        <th scope="col">
+                            N
+                        </th>
+                        <th scope="col">
+                            Name
+                            @*@Html.DisplayNameFor(model => model.Name)*@
+                        </th>
+                        <th scope="col">
+                            Specialization
+                            @*@Html.DisplayNameFor(model => model.Specialization)*@
+
+                        </th>
+                        <th scope="col">
+                            Photos
+                        </th>
+                        <th scope="col">
+                            RegDate
+                            @*@Html.DisplayNameFor(model => model.RegDate)*@
+                        </th>
+                        <th>
+
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        int i = ViewBag.Number;
+                        foreach (var item in Model.Data)
+                        {
+                            i++;
+                            <tr>
+                                <td scope="col">
+                                    <span>@i</span>
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Specialization)
+                                </td>
+                                <td>
+                                    @if (item.DataFile != null)
+                                    {
+                                        @*<img src="data:image/jpg;base64,@(Convert.ToBase64String(item.DataFile))" alt="@item.Description" style="width:70px;height:50px" class="img-thumbnail" />*@
+                                        <img src="@Url.Action("GetImage", "Trainers", new { id = item.Id })" alt="@item.Name" style="width:70px;height:50px" class="img-thumbnail" />
+                                    }
+                                </td>
+                                <td>
+                                    <span>@item.RegDate.ToString("dd-MM-yyy")</span> #
+                                    @*<span>@item.RegDate.ToShortDateString()</span> #*@
+                                    @Html.DisplayFor(modelItem => item.RegDate)
+                                </td>
+                                <td>
+                                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div style="text-align:center">
+            <cs-pager cs-paging-pagenumber=@Model.PageNumber
+                      cs-paging-totalitems=@Model.TotalItems
+                      cs-paging-pagesize=@Model.PageSize
+                      cs-pagenumber-param="pagenumber"
+                      asp-controller=@ViewContext.RouteData.Values["controller"].ToString()
+                      asp-action=@ViewContext.RouteData.Values["action"].ToString()
+                      cs-pager-li-current-class="page-item active"
+                      cs-previous-page-html="<a href='#' title='Previous page'><i class='glyphicon glyphicon-backward'></i></a>"
+                      cs-next-page-html="<a href='#' title='Next page'><i class='glyphicon glyphicon-forward'></i></a>"
+                      cs-pager-li-other-class="page-item"
+                      cs-pager-li-non-active-class="page-item disabled"
+                      cs-pager-link-current-class="page-link"
+                      cs-pager-link-other-class="page-link">
+            </cs-pager>
+
+
+        </div>
+    }
+    else
+    {
+        <div class="card">
+
+            <div class="card-header">
+                Search Result
+            </div>
+
+            <div class="card-body">
+                <h3 class="text-danger">No Trainers</h3>
+                <a asp-action="Create" asp-controller="Courses" class="btn btn-primary">Create Trainer</a>
+            </div>
+        </div>
+    }
+</div>

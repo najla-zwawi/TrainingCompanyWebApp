@@ -1,0 +1,44 @@
+﻿@model SiteState
+@{
+    ViewData["Title"] = "Edit";
+
+}
+<div class="container" style="margin-top:100px;">
+    <h3><b>@ViewContext.RouteData.Values["controller"].ToString()</b> - @ViewContext.RouteData.Values["action"].ToString()</h3>
+    <hr />
+    <div class="row" >
+
+
+        <div class="col-md-4">
+            <form asp-action="Edit" enctype="multipart/form-data">
+                @*<div asp-validation-summary="ModelOnly" class="text-danger"></div>*@
+
+                <div asp-validation-summary="All" class="text-danger"></div>
+
+                <div class="input-group mb-3">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" asp-for="SystemOff" class="custom-control-input" id="customCheck1">
+                        <label class="custom-control-label" for="customCheck1">SystemOff</label>
+                       
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" asp-for="RegDate" id="inputGroup-sizing-default">SystemOffMessage</span>
+                    </div>
+                    <textarea class="form-control" asp-for="SystemOffMessage" aria-label="With textarea"></textarea>
+                    <span asp-validation-for="SystemOffMessage" class="text-danger"></span>
+                </div>
+
+
+                <input type="hidden" asp-for="Id" />
+
+                <div class="form-group" style="margin-top:190px; margin-bottom:40px">
+                    <input type="submit" value="Save" class="btn btn-primary" /> |
+                    <a asp-action="Index">Back to List</a>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>

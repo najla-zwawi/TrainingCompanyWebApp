@@ -1,0 +1,70 @@
+﻿@model Courses
+
+@{
+    ViewData["Title"] = "Courses";
+}
+
+<div class="container" style="margin-top:80px;">
+    <h3><b>@ViewContext.RouteData.Values["controller"].ToString()</b> - @ViewContext.RouteData.Values["action"].ToString()</h3>
+    <hr />
+
+    <div class="row">
+
+        <dl class="col-12">
+
+            <dd calss="col-lg-2">
+                <picture>
+                    @if (Model.Picture != null)
+                    {
+
+                        @*<img src="data:image/jpg;base64,@(Convert.ToBase64String(Model.DataFile))" alt="@Model.Name"  style="width:200px;height:200px" class="img-thumbnail" />*@
+                        <img src="@Url.Action("GetImage", "Courses", new { id = Model.Id })" alt="@Model.Title" style="height: 200px;" class="img-thumbnail" />
+                    }
+                </picture>
+            </dd>
+
+            <dt class="col-lg-2"> @Html.DisplayNameFor(model => model.Code)</dt>
+            <dd class="col-lg-10">@Html.DisplayFor(model => model.Code)</dd>
+
+            <dt class="col-sm-6">@Html.DisplayNameFor(model => model.Title)</dt>
+            <dd class="col-sm-6"><p>@Model.Title</p>
+
+
+            <dt class="col-sm-6">@Html.DisplayNameFor(model => model.RegDate)</dt>
+            <dd class="col-sm-6"><p>@Model.RegDate</p></dd>
+
+            <dt class="col-sm-6">@Html.DisplayNameFor(model => model.Details)</dt>
+            <dd class="col-sm-6"><p>@Model.Details</p></dd>
+
+            <dt class="col-sm-6">@Html.DisplayNameFor(model => model.CourseFee)</dt>
+            <dd class="col-sm-6"><p>@Model.CourseFee</p></dd>
+
+            <dt class="col-sm-6">@Html.DisplayNameFor(model => model.HourNum)</dt>
+            <dd class="col-sm-6"><p>@Model.HourNum</p></dd>
+
+            <dt class="col-sm-6">@Html.DisplayNameFor(model => model.Seate)</dt>
+            <dd class="col-sm-6"><p>@Model.Seate</p></dd>
+
+            <dt class="col-sm-6">Trainer Name</dt>
+            <dd class="col-sm-6"><p>@Model.Trainer.Name</p></dd> 
+
+            <dt class="col-sm-6">@Html.DisplayNameFor(model => model.CreatedDate)</dt>
+            <dd class="col-sm-6"><p>@Model.CreatedDate</p></dd>
+
+            @if (Model.ModifiedDate != null)
+            {
+                <dt class="col-sm-6">@Html.DisplayNameFor(model => model.ModifiedDate)</dt>
+                <dd class="col-sm-6"><p>@Model.ModifiedDate</p></dd>
+            }
+            <hr />
+            <dd style="margin-top:20px">
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a> |
+                <a asp-action="Index">Back to List</a>
+            </dd>
+        </dl>
+
+
+    </div>
+</div>
+
+
